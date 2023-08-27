@@ -1,7 +1,12 @@
 const Workout = require('../Models/WorkoutModel')
 const mongoose = require('mongoose')
 
-// GET ALL WORKOUTS
+/*
+GET ALL WORKOUT:
+Asynchronous function that gets all of the workout documents and sort them in descending order.
+If successful, it will return a status of 200 and the documents. Otherwise, a status of 404 will be sent along with
+the error message
+*/
 const getWorkouts = async (req, res) => {
     try {
         const workouts = await Workout.find({}).sort({ createdAt: -1 })
@@ -11,7 +16,12 @@ const getWorkouts = async (req, res) => {
     }
 }
 
-// GET SINGLE WORKOUT
+
+/*
+GET SINGLE WORKOUT:
+Asynchronous function that takes the id from the request parameters and check if its valid and existing before it returns the document.
+If successful, it will return a status of 200 and the documents. Otherwise, a status of 404 will be sent along with the error message.
+*/
 const getWorkout = async (req, res) => {
     const { id } = req.params
     try {
@@ -28,7 +38,12 @@ const getWorkout = async (req, res) => {
     }
 }
 
-// POST NEW WORKOUT
+
+/*
+POST SINGLE WORKOUT:
+Asynchronous function that takes the data from the request body and creates a new document to be posted in the collection database.
+If successful, it will return a status of 200 and the documents. Otherwise, a status of 404 will be sent along with the error message.
+*/
 const createWorkout = async (req, res) => {
     const { title, reps, load } = req.body
     try {
@@ -39,7 +54,13 @@ const createWorkout = async (req, res) => {
     }
 }
 
-// DELETE WORKOUT
+
+/*
+DELETE SINGLE WORKOUT:
+Asynchronous function that takes the id from the request parameters and check if its valid and existing before it deletes the document.
+If successful, it will return a status of 200 along with the document that was deleted. Otherwise, a status of 404 will be sent along 
+with the error message.
+*/
 const deleteWorkout = async (req, res) => {
     const { id } = req.params
     try {
@@ -56,7 +77,13 @@ const deleteWorkout = async (req, res) => {
     }
 }
 
-// PATCH WORKOUT
+
+/*
+PATCH SINGLE WORKOUT:
+Asynchronous function that takes the id from the request parameters and check if its valid and existing before it patches with the
+data gathered from the req.body of the document. If successful, it will return a status of 200 and the documents. 
+Otherwise, a status of 404 will be sent along with the error message.
+*/
 const patchWorkout = async (req, res) => {
     const { id } = req.params
     try {
@@ -72,6 +99,7 @@ const patchWorkout = async (req, res) => {
         res.status(400).json({ error: err.message })
     }
 }
+
 
 module.exports = {
     getWorkouts,
