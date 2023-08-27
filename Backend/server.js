@@ -1,17 +1,22 @@
 const express = require('express');
 require('dotenv').config();
 
-
-const PORT = process.env.PORT || 5000;
+// Route declarations
+const workOutRoutes = require('./Routes/workouts')
 
 // express app
 const app = express();
 
-app.get('/', (req, res) => {
-    res.json({ mssg: "Welcome to the APP" })
+// Middleware: Logging the requests path and methods
+app.use((req, res, next) => {
+    console.log(`${req.method} Request from ${req.path}`)
+    next()
 })
 
+// Routes
+app.use('/api/workouts', workOutRoutes)
+
 // listen for requests
-app.listen(PORT, () => {
-    console.log(`Listening to port ${PORT}`)
+app.listen(process.env.PORT, () => {
+    console.log(`Listening to port ${process.env.PORT}`)
 })
