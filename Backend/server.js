@@ -1,13 +1,15 @@
-const express = require('express');
 require('dotenv').config();
 
-// Route declarations
+const express = require('express');
+const mongoose = require('mongoose')
 const workOutRoutes = require('./Routes/workouts')
 
 // express app
 const app = express();
 
-// Middleware: Logging the requests path and methods
+// MIDDLEWARES
+app.use(express.json())
+
 app.use((req, res, next) => {
     console.log(`${req.method} Request from ${req.path}`)
     next()
@@ -16,7 +18,11 @@ app.use((req, res, next) => {
 // Routes
 app.use('/api/workouts', workOutRoutes)
 
-// listen for requests
-app.listen(process.env.PORT, () => {
-    console.log(`Listening to port ${process.env.PORT}`)
+// Connect to DB and then listen for requests after successful connection
+mongoose.connect(process.env.MONGODB_URI).then(() => {
+    app.listen(process.env.PORT, () => {
+        console.log(`Connected to database and listening on port ${process.env.PORT}`)
+    })
+}).catch((err) => {
+    console.log(err)
 })
