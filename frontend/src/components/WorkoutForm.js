@@ -1,7 +1,7 @@
 import { useState } from "react"
 import axios from 'axios'
 
-
+const URL_PATH = "http://localhost:4000/api/workouts"
 const WorkoutForm = () => {
     const [title, setTitle] = useState("")
     const [load, setLoad] = useState("")
@@ -9,10 +9,15 @@ const WorkoutForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        const response = await axios.post(URL_PATH, {
+            title: title,
+            load: load,
+            reps: reps
+        })
+        setTitle("")
+        setLoad("")
+        setReps("")
 
-        const workout = { title, load, reps }
-
-        const response = await axios.post()
     }
 
     return (
