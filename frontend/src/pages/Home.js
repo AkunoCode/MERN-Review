@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import axios from 'axios'
 
 // components
@@ -13,13 +13,14 @@ const Home = () => {
 
     useEffect(() => {
         const fetchWorkouts = async () => {
-            const response = await axios.get(URL_PATH)
-            if (response.status === 200) {
+            await axios.get(URL_PATH).then((response) => {
                 dispatch({ type: "SETUP-WORKOUTS", payload: response.data })
-            }
+            }).catch(error => {
+                alert('An Error Occured With Fetching the Data')
+            })
         }
         fetchWorkouts()
-    }, [])
+    }, [dispatch])
 
     return (
         <div className="home">

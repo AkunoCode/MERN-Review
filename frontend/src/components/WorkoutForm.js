@@ -9,22 +9,26 @@ const WorkoutForm = () => {
     const [load, setLoad] = useState("")
     const [reps, setReps] = useState("")
     const [error, setError] = useState(null)
+    const [emptyFields, setEmptyFields] = useState([])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const response = await axios.post(URL_PATH, {
+        await axios.post(URL_PATH, {
             title: title,
             load: load,
             reps: reps
-        })
-        if (response.status === 200) {
+        }).then((response) => {
             setTitle("")
             setLoad("")
             setReps("")
+            setError(null)
+            setEmptyFields([])
             dispatch({ type: "CREATE-WORKOUT", payload: response.data })
-        } else {
-            setError(response.data.error)
-        }
+        }).catch(error => {
+            console.log("REACHED THE ELSE")
+            setError(error.response.data.error)
+            setEmptyFields(error.response.data.emptyFields)
+        })
     }
 
     return (
@@ -35,18 +39,21 @@ const WorkoutForm = () => {
                 type="text"
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
+                className={emptyFields.includes('title') ? "error" : ""}
             />
             <label>Load (kg):</label>
             <input
                 type="number"
                 onChange={(e) => setLoad(e.target.value)}
                 value={load}
+                className={emptyFields.includes('load') ? "error" : ""}
             />
             <label>Reps:</label>
             <input
                 type="number"
                 onChange={(e) => setReps(e.target.value)}
                 value={reps}
+                className={emptyFields.includes('reps') ? "error" : ""}
             />
 
             <button>Add Workout</button>
