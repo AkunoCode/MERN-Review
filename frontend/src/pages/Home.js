@@ -4,16 +4,19 @@ import axios from 'axios'
 // components
 import WorkoutDetails from '../components/WorkoutDetails'
 import WorkoutForm from '../components/WorkoutForm'
+import { useWorkoutContext } from "../hooks/useWorkoutContext"
 
 
 const URL_PATH = 'http://localhost:4000/api/workouts/'
 const Home = () => {
-    const [workouts, setWorkouts] = useState(null)
+    const { workouts, dispatch } = useWorkoutContext()
 
     useEffect(() => {
         const fetchWorkouts = async () => {
             const response = await axios.get(URL_PATH)
-            setWorkouts(response.data)
+            if (response.status === 200) {
+                dispatch({ type: "SETUP-WORKOUTS", payload: response.data })
+            }
         }
         fetchWorkouts()
     }, [])
