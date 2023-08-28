@@ -9,6 +9,7 @@ import { useWorkoutContext } from "../hooks/useWorkoutContext"
 
 const URL_PATH = 'http://localhost:4000/api/workouts/'
 const Home = () => {
+    // use context instead of usestate for global variables
     const { workouts, dispatch } = useWorkoutContext()
 
     useEffect(() => {

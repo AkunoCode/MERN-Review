@@ -8,6 +8,7 @@ const WorkoutDetails = ({ workout }) => {
 
     const { dispatch } = useWorkoutContext()
 
+    // When clicked, send a DELETE request to server and upon success dispatch DELETE-WORKOUT
     const handleClick = async () => {
         const response = await axios.delete(`${URL_PATH}${workout._id}`)
         if (response.status === 200) {
